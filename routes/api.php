@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\EpisodeController;
 use App\Http\Controllers\API\PodcastController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,5 +25,13 @@ Route::prefix('v1/')->group(function () {
     Route::prefix('podcasts')->group(function () {
         Route::get('/', [PodcastController::class, 'index']);
         Route::get('/{id}', [PodcastController::class, 'show']);
+    });
+
+    // I was split between nesting this inside podcasts since there's
+    // a heirarchy there but I prefer this for absolutely no reason.
+
+    Route::prefix('episodes')->group(function () {
+        Route::get('/', [EpisodeController::class, 'index']);
+        Route::get('/{id}', [EpisodeController::class, 'show']);
     });
 });
