@@ -48,8 +48,8 @@ class PodcastController extends Controller
     public function show($id)
     {
         // Use eager loads when we have some models
-        $podcast = Podcast::findOrFail($id);
-        // $podcast = Podcast::with(['events', 'podcasts'])->findOrFail($id);
+        // $podcast = Podcast::findOrFail($id);
+        $podcast = Podcast::with(['episodes'])->findOrFail($id);
 
         return response(['podcast' => $podcast]);
     }
