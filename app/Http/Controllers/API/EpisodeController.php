@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Podcast;
+use App\Models\Episode;
 use Illuminate\Http\Request;
 
-class PodcastController extends Controller
+class EpisodeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,11 @@ class PodcastController extends Controller
      */
     public function index()
     {
-        return response(['podcasts' => Podcast::all()]);
+        return response(['episodes' => Episode::with('podcast')->get()]);
     }
 
     /**
-     * I really don't have time to build a full API.
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -48,10 +48,9 @@ class PodcastController extends Controller
     public function show($id)
     {
         // Use eager loads when we have some models
-        // $podcast = Podcast::findOrFail($id);
-        $podcast = Podcast::with(['episodes'])->findOrFail($id);
+        $episode = Episode::with(['podcast'])->findOrFail($id);
 
-        return response(['podcast' => $podcast]);
+        return response(['episode' => $episode]);
     }
 
     /**

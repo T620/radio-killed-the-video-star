@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Podcast extends Model
@@ -11,10 +12,10 @@ class Podcast extends Model
 
     // TODO: once they're built
 
-    // public function episodes(): HasMany
-    // {
-    //     return $this->hasMany(Episode::class);
-    // }
+    public function episodes(): HasMany
+    {
+        return $this->hasMany(Episode::class);
+    }
 
     // public function events(): HasMany
     // {
