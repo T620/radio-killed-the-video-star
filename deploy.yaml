@@ -1,0 +1,37 @@
+import:
+  - recipe/laravel.php
+  - contrib/php-fpm.php
+  - contrib/npm.php
+
+config:
+  application: "staging"
+  repository: "git@github.com:T620/radio-killed-the-video-star.git"
+  php_fpm_version: "8.0"
+
+hosts:
+  rocket: # rocket is a personal ssh config that I use to host my own site, it won't work for you.
+    remote_user: deployer
+    hostname: "radio-staging"
+    deploy_path: "/var/www/radio"
+
+tasks:
+  ci:
+    - run: "cd {{release_path}} && composer install"
+  deploy:
+    - deploy:prepare
+    - deploy:vendors
+    - artisan:storage:link
+    - artisan:view:cache
+    - artisan:view:clear
+    - artisan:config:cache
+    - artisan:config:clear
+    - artisan:down
+    - ci
+    - artisan:migrate:fresh
+    - artisan:db:seed
+    - artisan:key:generate
+    - artisan:up
+    - deploy:publish
+
+after:
+  deploy:failed: deploy:unlock
