@@ -78,7 +78,7 @@ class EpisodeController extends Controller
         // easier.
         $validator = Validator::make($request->all(), [
             'period' => [
-                Rule::in(['daily', 'weekly', 'monthly', 'yearly']),
+                Rule::in(['days', 'weeks', 'months', 'years']),
                 'nullable'
             ],
             'interval' => ['digits_between:1,365', 'nullable']
