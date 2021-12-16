@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Model;
 
 class DownloadedEpisode extends Model
@@ -17,12 +19,13 @@ class DownloadedEpisode extends Model
         'id',
         'episode_id',
         'podcast_id',
+        'occurred_at',
         'event_id'
     ];
 
-    // cast the created_at date to ISO 8601.
+    // cast the occurred_at date to ISO 8601.
     protected $casts = [
-        'created_at' => 'datetime:c'
+        'occurred_at' => 'datetime:c'
     ];
 
     public function podcast(): BelongsTo

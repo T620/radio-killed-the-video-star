@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\Analytics\EpisodeController as EpisodeAnalyticsController;
 use App\Http\Controllers\API\EpisodeController;
 use App\Http\Controllers\API\PodcastController;
 use Illuminate\Http\Request;
@@ -34,5 +35,15 @@ Route::prefix('v1/')->group(function () {
         Route::get('/', [EpisodeController::class, 'index']);
         Route::get('/{id}', [EpisodeController::class, 'show']);
         Route::get('/{id}/download', [EpisodeController::class, 'download']);
+    });
+
+
+    Route::prefix('analytics')->group(function () {
+        Route::prefix('episodes')->group(function () {
+            Route::get(
+                '/{episode}/downloads',
+                [EpisodeAnalyticsController::class, 'downloads']
+            );
+        });
     });
 });
