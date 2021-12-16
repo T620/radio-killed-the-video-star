@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use Carbon\Carbon;
+
 class CreateDownloadedEpisodesTable extends Migration
 {
     /**
@@ -36,9 +38,9 @@ class CreateDownloadedEpisodesTable extends Migration
             //     ->on('events')
             //     ->onDelete('cascade');
 
-            /*
-                you will notice there is no 'occured_at' field. I'm using created_at and mapping that field to 'ocurred_at' via resource. This will minimise work and keep the front-end devs happy :)
-            */
+            $table->datetime('occurred_at')
+                ->useCurrent();
+
             $table->timestamps();
         });
     }
