@@ -19,16 +19,13 @@ class DownloadedEpisode extends Model
         'id',
         'episode_id',
         'podcast_id',
+        'occurred_at',
         'event_id'
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'occurred_at'
+    // cast the occurred_at date to ISO 8601.
+    protected $casts = [
+        'occurred_at' => 'datetime:c'
     ];
 
     public function podcast(): BelongsTo
@@ -45,18 +42,5 @@ class DownloadedEpisode extends Model
     public function episode(): BelongsTo
     {
         return $this->belongsTo(Episode::class);
-    }
-
-     /**
-     * Create this dynamic property which is based
-     * of the created_at field
-     *
-     * @return string
-     */
-    public function getOccurredAtAttribute()
-    {
-        return Carbon::parse(
-            $this->attributes['created_at']
-        )->toISOString();
     }
 }
