@@ -28,7 +28,7 @@ class DownloadedEpisode extends Model
      * @var array
      */
     protected $appends = [
-        'ocurred_at'
+        'occurred_at'
     ];
 
     public function podcast(): BelongsTo
@@ -53,7 +53,7 @@ class DownloadedEpisode extends Model
      *
      * @return string
      */
-    public function getOcurredAtAttribute()
+    public function getOccurredAtAttribute()
     {
         return Carbon::parse(
             $this->attributes['created_at']
