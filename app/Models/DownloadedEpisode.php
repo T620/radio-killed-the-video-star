@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Model;
 
 class DownloadedEpisode extends Model
@@ -20,9 +22,13 @@ class DownloadedEpisode extends Model
         'event_id'
     ];
 
-    // cast the created_at date to ISO 8601.
-    protected $casts = [
-        'created_at' => 'datetime:c'
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'ocurred_at'
     ];
 
     public function podcast(): BelongsTo
@@ -39,5 +45,18 @@ class DownloadedEpisode extends Model
     public function episode(): BelongsTo
     {
         return $this->belongsTo(Episode::class);
+    }
+
+     /**
+     * Create this dynamic property which is based
+     * of the created_at field
+     *
+     * @return string
+     */
+    public function getOcurredAtAttribute()
+    {
+        return Carbon::parse(
+            $this->attributes['created_at']
+        )->toISOString();
     }
 }
