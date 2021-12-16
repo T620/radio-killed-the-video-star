@@ -15,4 +15,16 @@ class Episode extends Model
     {
         return $this->belongsTo(Podcast::class);
     }
+
+    public function downloadLink(): string
+    {
+        // TODO: convert to a cast if poss
+        return urldecode($this->file_url);
+    }
+
+    public function imageLink(): string
+    {
+        // TODO: convert to a cast if poss
+        return urldecode($this->image_url);
+    }
 }

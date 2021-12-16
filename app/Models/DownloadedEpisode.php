@@ -11,6 +11,15 @@ class DownloadedEpisode extends Model
 {
     use HasFactory;
 
+    // let all the attrs be mass-assignable
+    // I know what I'm doing
+    protected $fillable = [
+        'id',
+        'episode_id',
+        'podcast_id',
+        'event_id'
+    ];
+
     // cast the created_at date to ISO 8601.
     protected $casts = [
         'created_at' => 'datetime:c'

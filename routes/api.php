@@ -33,5 +33,6 @@ Route::prefix('v1/')->group(function () {
     Route::prefix('episodes')->group(function () {
         Route::get('/', [EpisodeController::class, 'index']);
         Route::get('/{id}', [EpisodeController::class, 'show']);
+        Route::get('/{id}/download', [EpisodeController::class, 'download']);
     });
 });

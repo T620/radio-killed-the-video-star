@@ -17,9 +17,9 @@ class CreateDownloadedEpisodesTable extends Migration
         Schema::create('downloaded_episodes', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInt('podcast_id');
-            $table->unsignedBigInt('episode_id');
-            $table->unsignedBigInt('event_id');
+            $table->unsignedBigInteger('podcast_id');
+            $table->unsignedBigInteger('episode_id');
+            $table->unsignedBigInteger('event_id');
 
             $table->foreign('podcast_id')
                 ->references('id')
@@ -31,10 +31,10 @@ class CreateDownloadedEpisodesTable extends Migration
                 ->on('episodes')
                 ->onDelete('cascade');
 
-            $table->foreign('event_id')
-                ->references('id')
-                ->on('events')
-                ->onDelete('cascade');
+            // $table->foreign('event_id')
+            //     ->references('id')
+            //     ->on('events')
+            //     ->onDelete('cascade');
 
             /*
                 you will notice there is no 'occured_at' field. I'm using created_at and mapping that field to 'ocurred_at' via resource. This will minimise work and keep the front-end devs happy :)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\EpisodeDownloadedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Episode;
 use Illuminate\Http\Request;
@@ -51,6 +52,31 @@ class EpisodeController extends Controller
         $episode = Episode::with(['podcast'])->findOrFail($id);
 
         return response(['episode' => $episode]);
+    }
+
+    /**
+     * Provides the user with a download_url to download the episode
+     *
+     * Stores a downloaded_episodes record too
+     */
+    public function download($id)
+    {
+        // Use eager loads when we have some models
+        $episode = Episode::with(['podcast'])->findOrFail($id);
+
+        /*
+            dispatch the event. Post-processing will be handled
+            by the listener and job.
+            we do this bc we need to return the response to the user
+            quickly, so push any work that can wait to a queue to
+            be handled on a seperate process (in this case, redis)
+        */
+        EpisodeDownloadedEvent::dispatch($episode);
+
+        // if we had more time, imagine there's some sort of S3 bucket interaction here instead of a pre-generated URL.
+        return response([
+            'download_link' => $episode->downloadLink()
+        ]);
     }
 
     /**
