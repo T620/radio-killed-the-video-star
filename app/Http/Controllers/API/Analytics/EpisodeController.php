@@ -102,7 +102,7 @@ class EpisodeController extends Controller
          * Select * from downloaded_episodes
          * join podcast
          * where episode_id = $episode->id
-         * and created_at within (interval, period)
+         * and occurred_at within (interval, period)
          * aggregate by day
          */
 
@@ -112,8 +112,8 @@ class EpisodeController extends Controller
         // start with the basic query so we can count how many there are in total
         $downloadedEpisodes = DownloadedEpisode::with('podcast')
             ->where('episode_id', $episode->id)
-            ->where('created_at', '>=', $ocurredAtDate)
-            ->orderBy('created_at')
+            ->where('occurred_at', '>=', $ocurredAtDate)
+            ->orderBy('occurred_at')
             ->get();
 
         $count = count($downloadedEpisodes);
@@ -125,7 +125,7 @@ class EpisodeController extends Controller
                 // using the short english day of week
                 // because it will be easier for frontend to create
                 // chart labels (less text, more to fit in a smaller area)
-                return Carbon::parse($record->created_at)
+                return Carbon::parse($record->occurred_at)
                     ->shortEnglishDayOfWeek;
             })->all();
 
