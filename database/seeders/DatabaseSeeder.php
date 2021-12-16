@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PodcastSeeder::class,
-            EpisodeSeeder::class
+            EpisodeSeeder::class,
+            DownloadedEpisodeSeeder::class
         ]);
     }
 }
