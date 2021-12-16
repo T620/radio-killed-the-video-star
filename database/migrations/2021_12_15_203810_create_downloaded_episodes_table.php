@@ -38,7 +38,7 @@ class CreateDownloadedEpisodesTable extends Migration
             //     ->on('events')
             //     ->onDelete('cascade');
 
-            $table->datetime('occurred_at')
+            $table->timestamp('occurred_at')
                 ->useCurrent();
 
             $table->timestamps();
