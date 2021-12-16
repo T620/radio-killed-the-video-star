@@ -10,8 +10,8 @@ config:
 
 hosts:
   rocket: # rocket is a personal ssh config that I use to host my own site, it won't work for you.
-    remote_user: deployer
-    hostname: "radio-staging"
+    remote_user: root
+    hostname: "tangosixtwenty.dev"
     deploy_path: "/var/www/radio"
 
 tasks:
