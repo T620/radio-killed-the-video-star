@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PodcastSeeder::class,
             EpisodeSeeder::class,
-            DownloadedEpisodeSeeder::class
+            EventSeeder::class,
+            DownloadedEpisodeSeeder::class,
         ]);
     }
 }

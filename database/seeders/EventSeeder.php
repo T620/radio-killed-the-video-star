@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Episode;
 use Illuminate\Database\Seeder;
+use App\Models\Event;
 
-class EpisodeSeeder extends Seeder
+class EventSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class EpisodeSeeder extends Seeder
      */
     public function run()
     {
-        Episode::factory(10)->create();
+        Event::factory(100)->create();
     }
 }
