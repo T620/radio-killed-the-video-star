@@ -3,6 +3,8 @@
 use App\Http\Controllers\API\Analytics\EpisodeController as EpisodeAnalyticsController;
 use App\Http\Controllers\API\EpisodeController;
 use App\Http\Controllers\API\PodcastController;
+use App\Http\Controllers\API\EventController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +39,9 @@ Route::prefix('v1/')->group(function () {
         Route::get('/{id}/download', [EpisodeController::class, 'download']);
     });
 
+    Route::prefix('events')->group(function() {
+        Route::get('/', [EventController::class, 'index']);
+    });
 
     Route::prefix('analytics')->group(function () {
         Route::prefix('episodes')->group(function () {
