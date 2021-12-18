@@ -4,9 +4,9 @@ import:
   - contrib/npm.php
 
 config:
-  application: "staging"
+  application: "radio-killed-the-video-star"
   repository: "git@github.com:T620/radio-killed-the-video-star.git"
-  php_fpm_version: "8.0"
+  php_fpm_version: "7.4"
 
 hosts:
   rocket: # rocket is a personal ssh config that I use to host my own site, it won't work for you.
