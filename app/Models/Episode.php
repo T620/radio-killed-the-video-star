@@ -11,6 +11,9 @@ class Episode extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'uuid';
+
     public function podcast(): BelongsTo
     {
         return $this->belongsTo(Podcast::class);

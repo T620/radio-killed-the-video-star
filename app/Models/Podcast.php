@@ -10,6 +10,10 @@ class Podcast extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'uuid';
+
+
     // TODO: once they're built
 
     public function episodes(): HasMany

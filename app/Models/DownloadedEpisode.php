@@ -13,6 +13,10 @@ class DownloadedEpisode extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'uuid';
+
+
     // let all the attrs be mass-assignable
     // I know what I'm doing
     protected $fillable = [
