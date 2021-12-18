@@ -14,8 +14,9 @@ class CreateEpisodesTable extends Migration
     public function up()
     {
         Schema::create('episodes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('podcast_id');
+            $table->uuid('id')->primary();
+            $table->uuid('podcast_id');
+
             $table->string('title');
             $table->text('description');
             $table->string('image_url'); // cover art url

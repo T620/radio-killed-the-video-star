@@ -25,7 +25,6 @@ class DownloadedEpisodeSeeder extends Seeder
         foreach ($podcasts as $podcast) {
             foreach ($podcast->episodes as $episode) {
                 DownloadedEpisode::factory()->create([
-                    'event_id'   => 1,
                     'podcast_id' => $podcast->id,
                     'episode_id' => $episode->id
                 ]);

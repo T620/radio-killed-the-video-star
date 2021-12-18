@@ -19,7 +19,8 @@ class EpisodeFactory extends Factory
         $podcasts = Podcast::all()->pluck('id')->toArray();
 
         return [
-            'podcast_id'     => $this->faker->numberBetween(1, count($podcasts)),
+            'id'             => $this->faker->uuid(),
+            'podcast_id'     => $this->faker->randomElement($podcasts),
             'title'          => $this->faker->sentence(6),
             'description'    => $this->faker->sentence(),
             'image_url'      => urlencode('https://source.unsplash.com/random'), // random image

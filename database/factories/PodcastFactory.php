@@ -18,6 +18,7 @@ class PodcastFactory extends Factory
     public function definition()
     {
         return [
+            'id'          => $this->faker->uuid(),
             'title'       => $this->faker->sentence(),
             'description' => $this->faker->sentence(),
         ];
