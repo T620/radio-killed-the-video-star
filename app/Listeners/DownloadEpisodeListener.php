@@ -21,10 +21,7 @@ class DownloadEpisodeListener
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct() {}
 
     /**
      * Handle the event.
@@ -34,14 +31,13 @@ class DownloadEpisodeListener
      */
     public function handle(EpisodeDownloadedEvent $event)
     {
-        // Log::info(json_encode($event));
-
         $episode = $event->episode;
 
-        DownloadEpisode::dispatch($episode)
-            ->onQueue('episode_downloads');
-
-
-        // Log::debug(json_encode($success));
+        if (app('env') === 'testing') {
+            DownloadEpisode::dispatch($episode);
+        } else {
+            DownloadEpisode::dispatch($episode)
+                ->onQueue('episode_downloads');
+        }
     }
 }
