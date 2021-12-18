@@ -4,16 +4,28 @@ namespace Tests\Feature\Analytics;
 
 use Tests\TestCase;
 
+use App\Models\Episode;
+use App\Models\Podcast;
+use App\Models\DownloadedEpisode;
+
 class EpisodeAnalyticsTest extends TestCase
 {
-    public function setup()
+    public function setUp(): void
     {
-        // create the mock episode
-        // $episode = EpisodeFactory::create([
-        //     'podcast' => PodcastFactory::create()
-        // ]);
+        $podcast = Podcast::factory([
+            'title'       => 'A podcast',
+            'description' => 'A description of a podcast'
+        ])->create();
 
-        // $this->episode = $episode;
+        // create the mock episode
+        $episode = Episode::factory([
+            'title'       => 'An episode',
+            'description' => 'A description of an episode',
+        ])
+        ->for($podcast)
+        ->create();
+
+        $this->episode = $episode;
     }
 
     // basic endpoint test
@@ -25,7 +37,8 @@ class EpisodeAnalyticsTest extends TestCase
 
     public function testItCan404WithNoEpisodeId(): void
     {
-        $response = $this->get("/analytics/episodes/some-random-string-to-fail");
+        $response
+            = $this->get("/analytics/episodes/some-random-string-to-fail");
         $response->assertStatus(404);
     }
 

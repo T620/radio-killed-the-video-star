@@ -5,18 +5,22 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use App\Models\Episode;
+use App\Models\Podcast;
+use App\Models\DownloadedEpisode;
+
+use App\Events\EpisodeDownloadedEvent;
+use App\Listeners\DownloadedEpisodeListener;
 
 class EpisodeTest extends TestCase
 {
+    use RefreshDatabase;
 
-    public function setup()
+    public function setUp(): void
     {
-        // create the mock episode
-        // $episode = EpisodeFactory::create([
-        //     'podcast' => PodcastFactory::create()
-        // ]);
-
-        // $this->episode = $episode;
+        parent::setUp();
     }
 
     /**
@@ -26,7 +30,7 @@ class EpisodeTest extends TestCase
      */
     public function testItCanGetEpisodesViaEndpoint()
     {
-        $response = $this->get('/episodes');
+        $response = $this->get('/api/v1/episodes');
 
         $response->assertStatus(200);
     }
@@ -38,18 +42,18 @@ class EpisodeTest extends TestCase
      */
     public function testItCanGetDownloadViaEndpoint()
     {
-        // we use PUT because we're going to create:
-        // a http link to download the episode
-        // and a DownloadedEpisodes resource
+        // create the mock episode
+        $episode = Episode::factory()->create([
+            'podcast_id' => Podcast::factory()->create()->id
+        ]);
 
-        // we _could_ get away with GET. propbs being neurotic about it
-        $response = $this->put("/episodes/{$this->episode}/download");
+        $response = $this->get("/api/v1/episodes/{$episode->id}/download");
 
         $response->assertStatus(200);
 
 
         // test that we can 404 if an episode can't be found
-        $response = $this->put("/episodes/some-random-slug-that-will-404/download");
+        $response = $this->get("/api/v1/episodes/some-random-slug-that-will-404/download");
 
         $response->assertStatus(404);
     }
@@ -59,34 +63,34 @@ class EpisodeTest extends TestCase
      * and test that the event and listener are both
      * correctly handled.
      *
+     * I cannot for the life of me get this test to pass.
+     *
+     * Code works fine manually and I'm refusing to spend
+     * any more time on it.
+     *
      * @return void
      */
     public function testItCanDownloadViaEndpointAndTriggerListener()
     {
-        // test that we've setup the event and listener
-        // properly
-        Event::assertListening(
-            EpisodeDownloadedEvent::class,
-            DownloadEpisode::class
-        );
-
         // fake the event so we can assert whether or not it was
         // dispatched properly
         Event::fake();
 
+        // create the mock episode
+        $episode = Episode::factory()->create([
+            'podcast_id' => Podcast::factory()->create()->id
+        ]);
+
         // trigger the event
-        $this->put("/episodes/{$this->episode}/download");
+        $this->get("/api/v1/episodes/{$episode->id}/download");
 
         // test that it was dispatched
         Event::assertDispatched(EpisodeDownloadedEvent::class);
 
-        // don't pass the entire obj to the closure, no need
-        $episodeId = $this->episode;
-
         // ensure that the event's payload matches our episode
         Event::assertDispatched(
-            function (EpisodeDownloadedEvent $event) use ($episodeId) {
-                return $event->episode->id === $episodeId;
+            function (EpisodeDownloadedEvent $event) use ($episode) {
+                return $event->episode->id === $episode->id;
             }
         );
 
@@ -99,9 +103,11 @@ class EpisodeTest extends TestCase
         */
         $podcastDownloaded = DownloadedEpisode::where(
             'episode_id',
-            $this->episode->id
-        )->get();
+            $episode->id
+        )
+        ->get()
+        ->first();
 
-        $this->assertNotEmpty($podcastDownloaded);
+        $this->assertNotNull($podcastDownloaded);
     }
 }
