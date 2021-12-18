@@ -17,11 +17,11 @@ class CreateDownloadedEpisodesTable extends Migration
     {
         // this is essentially a pivot table with a timestamp
         Schema::create('downloaded_episodes', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->unsignedBigInteger('podcast_id');
-            $table->unsignedBigInteger('episode_id');
-            $table->unsignedBigInteger('event_id');
+            $table->uuid('podcast_id');
+            $table->uuid('episode_id');
+            $table->uuid('event_id');
 
             $table->foreign('podcast_id')
                 ->references('id')
@@ -33,10 +33,10 @@ class CreateDownloadedEpisodesTable extends Migration
                 ->on('episodes')
                 ->onDelete('cascade');
 
-            // $table->foreign('event_id')
-            //     ->references('id')
-            //     ->on('events')
-            //     ->onDelete('cascade');
+            $table->foreign('event_id')
+                ->references('id')
+                ->on('events')
+                ->onDelete('cascade');
 
             $table->timestamp('occurred_at')
                 ->useCurrent();

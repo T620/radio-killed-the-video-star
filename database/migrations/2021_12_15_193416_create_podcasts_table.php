@@ -14,7 +14,8 @@ class CreatePodcastsTable extends Migration
     public function up()
     {
         Schema::create('podcasts', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+
             $table->string('title');
             $table->text('description');
 

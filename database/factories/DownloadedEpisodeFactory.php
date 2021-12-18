@@ -18,6 +18,7 @@ class DownloadedEpisodeFactory extends Factory
         // data and see what results you get from the endpoints
         // reference: https://fakerphp.github.io/formatters/date-and-time/#datetimebetween
         return [
+            'id'          => $this->faker->uuid(),
             'occurred_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             // 'occurred_at' => $this->faker->dateTimeThisYear()
         ];
